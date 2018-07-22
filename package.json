@@ -1,0 +1,14 @@
+{
+  "name": "blackoak",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^5.2.4",
+    "node-telegram-bot-api": "^0.30.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "deploy":"now --public && now alias"
+  }
+}

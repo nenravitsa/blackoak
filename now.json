@@ -1,0 +1,9 @@
+{
+  "name": "blackoak",
+  "alias": "blackoak.now.sh",
+  "env": {
+    "TOKEN": "@oaktoken",
+    "NODE_ENV": "production",
+    "MONGO_URL":"@mongourl"
+  }
+}
