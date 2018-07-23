@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "deploy":"now --public && now alias && now rm blackoak --safe --yes"
+    "deploy":"now --public && now alias && now rm blackoak --safe --yes",
+    "watch":"nodemon app.js"
   }
 }

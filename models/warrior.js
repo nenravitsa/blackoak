@@ -4,15 +4,20 @@ const Schema = mongoose.Schema;
 // Create a Schema and a Model
 
 const BattleSchema = new Schema({
-  data: Date,
+  date: Date,
   exp: Number,
-  gold: Number
+  gold: Number,
+  stock: Number
 });
 
 const OakWarriorSchema = new Schema({
   t_id: Number,
   t_name: String,
   cw_name: String,
+  castle:String,
+  lvl:Number,
+  attack: Number,
+  protec: Number,
   battles: [BattleSchema]
 });
 
