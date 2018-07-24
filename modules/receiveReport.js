@@ -1,7 +1,8 @@
 const Warrior = require('../models/warrior');
 const date = require('../helpers/date');
 const stats = require('../helpers/getStats');
-const messages = ['Ого, это все тебе?', 'Спасибо, котик!', 'Ты настоящий воен!', 'Ты самый(ая) лучший(ая)!', '❤❤❤❤', 'Ты лучший воен!', 'Гильдия запомнит твой подвиг!', '/ogo', 'А ты мне нравишься!'];
+const update = require('../helpers/update');
+const messages = require('../messages');
 
 const receiveReport = (bot) => {
   bot.onText(/[🍁🌹🍆🦇🐢🖤☘️](.*?⚔:)(.+)/, (msg) => {
@@ -26,18 +27,21 @@ const receiveReport = (bot) => {
           stock: stock
         };
         //check if player with provided telegram id already in db
-        //todo: check if report belong to player
         Warrior.findOne({t_id:msg.from.id}).then((res)=>{
-          console.log(res)
+          const lvl = msg.text.match(/Lvl: (\d+)/)[1];
+          const attack = stats.getStats(msg.text.match(/⚔:(-?\d+\(?[+-]?\d+)/)[1]);
+          const protec = stats.getStats(msg.text.match(/🛡:(-?\d+\(?[+-]?\d+)/)[1]);
+          const castle = msg.text.match(/(🍁|🌹|🍆|🦇|🐢|🖤|☘️)/)[1];
+          const cw_name = msg.text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\]]+)/)[1];
           if(res==null){
             const warrior = new Warrior({
               t_id:msg.from.id,
               t_name:msg.from.username,
-              cw_name:msg.text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\]]+)/)[1],
-              castle:msg.text.match(/(🍁|🌹|🍆|🦇|🐢|🖤|☘️)/)[1],
-              lvl:msg.text.match(/Lvl: (\d+)/)[1],
-              attack:stats.getStats(msg.text.match(/⚔:(-?\d+\(?[+-]?\d+)/)[1]),
-              protec:stats.getStats(msg.text.match(/🛡:(-?\d+\(?[+-]?\d+)/)[1]),
+              cw_name:cw_name,
+              castle: castle,
+              lvl:lvl,
+              attack:attack,
+              protec: protec,
               battles:[battle]
             });
             warrior.save().then(()=>{
@@ -45,6 +49,12 @@ const receiveReport = (bot) => {
             }).catch(err=>console.error(err));
           }
           else {
+            if(res.t_id!==msg.from.id) {bot.sendMessage(chatId, 'Это не твой репорт. Не обманывай.', {reply_to_message_id: msg.message_id});}
+            if(res.lvl!==lvl){update.updateWarrior(msg.from.id, 'lvl', lvl)}
+            if(res.attack!==attack){update.updateWarrior(msg.from.id, 'attack', attack)}
+            if(res.protec!==protec){update.updateWarrior(msg.from.id, 'protec', protec)}
+            if(res.castle!==castle){update.updateWarrior(msg.from.id, 'castle', castle)}
+            if(res.cw_name!==cw_name){update.updateWarrior(msg.from.id, 'cw_name', cw_name)}
             if (~res.battles.findIndex(v=>v.date.getTime()===b_date.getTime())){
               bot.sendMessage(chatId, 'Репорт уже принят!', {reply_to_message_id: msg.message_id});
             }

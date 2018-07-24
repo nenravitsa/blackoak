@@ -6,7 +6,7 @@ const getLost = (bot) => {
     const chatId = msg.chat.id;
     const b_time = date.nearestBattleTime(new Date());
     console.log(b_time.toISOString())
-    Warrior.find({'battles.date':{$ne: b_time.toISOString()}}).then(res=>{
+    Warrior.find({'battles.date':{$ne: b_time.toISOString()}},{t_name:1, cw_name:1, _id: 0}).then(res=>{
       if(!res||res===[]){
         bot.sendMessage(chatId, '💯 /ogo! Сегодня на битве были все! 💯');
       }
