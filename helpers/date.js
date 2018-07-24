@@ -1,20 +1,19 @@
 const nearestBattleTime = (date) => {
   let hour = date.getHours();
-
   const closest = Math.max(...[1,9,17].filter(v => (hour>0) ? v <= hour : 17));
-
-  date.setHours(closest);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-
+  date.setHours(closest, 0, 0, 0);
+  //UTC?
   return date;
 };
-const getWeekSpan = (date) => {
-  return date.setDate(date.getDate()-7)
+
+const getMonday = (date) => {
+  let day = date.getDay(),
+    diff = date.getDate() - day + (day === 0 ? -6 : 1),
+    monday = new Date(date.setDate(diff));
+  return new Date(monday.setHours(1,0,0,0));
 };
 
 module.exports = {
-  nearestBattleTime:nearestBattleTime,
-  getWeek:getWeekSpan
+  nearestBattleTime,
+  getMonday
 };
