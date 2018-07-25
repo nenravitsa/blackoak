@@ -26,4 +26,4 @@ const getSquad = (bot) => {
   });
 };
 
-module.exports = {getSquad};
+module.exports = getSquad;

@@ -15,6 +15,7 @@ const OakWarriorSchema = new Schema({
   t_name: String,
   cw_name: String,
   castle:String,
+  squad:String,
   lvl:Number,
   attack: Number,
   protec: Number,

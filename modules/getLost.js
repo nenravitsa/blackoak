@@ -21,4 +21,4 @@ const getLost = (bot) => {
   });
 };
 
-module.exports = {getLost};
+module.exports = getLost;

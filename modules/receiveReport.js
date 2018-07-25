@@ -66,10 +66,9 @@ const receiveReport = (bot) => {
             }
           }
         });
-
       }
     }
   });
 };
 
-module.exports = {receiveReport};
+module.exports = receiveReport;

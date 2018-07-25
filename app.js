@@ -4,8 +4,12 @@ const mongoURI = process.env.MONGO_URL||require('./parameters').path;
 const mongoose = require('mongoose');
 const week = require('./modules/weekReport');
 const squad = require('./modules/getSquad');
-const main = require('./modules/receiveReport');
+const receiveReport = require('./modules/receiveReport');
 const lost = require('./modules/getLost');
+const receiveHero = require('./modules/receiveHero');
+const squadInfo = require('./modules/updateSquadInfo');
+const readAll = require('./modules/test');
+const pinForAll = require('./modules/pin');
 mongoose.Promise = global.Promise;
 
 const options = {
@@ -13,11 +17,11 @@ const options = {
     port: 443
   }
 };
-
+let bot;
 //bot initialization
 if(process.env.NODE_ENV == 'production') {
   const url = 'blackoak.now.sh';
-  const bot = new TelegramBot(TOKEN, options);
+  bot = new TelegramBot(TOKEN, options);
   bot.setWebHook(`${url}/bot${TOKEN}`);
 }
 else bot = new TelegramBot(TOKEN, {polling: true});
@@ -28,7 +32,19 @@ mongoose.connection.once('open', ()=>{console.log('connection has been made')})
   .on('error', error=>console.log(error));
 
 //all operations
-main.receiveReport(bot);
-week.weekReport(bot);
-squad.getSquad(bot);
-lost.getLost(bot);
+receiveReport(bot);
+week(bot);
+squad(bot);
+lost(bot);
+receiveHero(bot);
+
+//monitors the addition and removal of the bot from the chats
+squadInfo.addSquad(bot);
+squadInfo.deleteSquad(bot);
+
+//pin message in all chats, unpin when time is come
+pinForAll(bot);
+
+//dev option only, for get some info about chat, user or message
+//readAll(bot);
+

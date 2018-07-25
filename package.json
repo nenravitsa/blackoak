@@ -4,12 +4,15 @@
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
+    "date-fns": "^1.29.0",
+    "mocha": "^5.2.0",
     "mongoose": "^5.2.4",
     "node-telegram-bot-api": "^0.30.0"
   },
   "scripts": {
     "start": "node app.js",
-    "deploy":"now --public && now alias",
-    "watch":"nodemon app.js"
+    "deploy": "now --public && now alias",
+    "watch": "nodemon app.js",
+    "test":"mocha"
   }
 }
