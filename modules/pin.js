@@ -7,7 +7,7 @@ const pinForAll = (bot) => {
   }).catch(err=>console.log(err));
 
   bot.onText(/\/pin (.+)/, (msg, match) => {
-    if(msg.from.id===83517095||86007368){
+    if([83517095,86007368].includes (msg.from.id)){
       const resp = match[1];
       for(let i=0; i<chats.length; i++){
         bot.sendMessage(chats[i], resp).then(m => {
@@ -20,7 +20,7 @@ const pinForAll = (bot) => {
 
   setInterval(()=>{
       let curDate = new Date().getUTCHours() + ':' + new Date().getUTCMinutes();
-      if (curDate === ('6:00'||'14:00'||'22:00')) {
+      if (['6:00','14:00','22:00'].includes(curDate)) {
         for(let i=0; i<chats.length; i++) {
           bot.unpinChatMessage(chats[i])
         }

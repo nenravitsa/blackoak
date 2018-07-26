@@ -1,8 +1,13 @@
 const nearestBattleTime = (date) => {
   let d = new Date(date);
   let hour = d.getUTCHours();
-  const closest = Math.max(...[6,14,22].filter(v => (hour>0) ? v <= hour : 22));
+  const closest = Math.max(...[6,14,22].filter(v => (hour>=6) ? v <= hour : 22));
+  if(hour<6) {
+    let day = d.getUTCDate();
+    d.setUTCDate(day-1)
+  }
   d.setUTCHours(closest, 0, 0, 0);
+  console.log(d)
   return d;
 };
 

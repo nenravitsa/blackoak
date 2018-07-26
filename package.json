@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "deploy": "now --public && now alias",
+    "deploy": "now --public && now alias && now rm blackoak --safe --yes",
     "watch": "nodemon app.js",
     "test":"mocha"
   }

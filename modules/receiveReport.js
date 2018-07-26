@@ -7,6 +7,7 @@ const messages = require('../messages');
 const receiveReport = (bot) => {
   bot.onText(/[🍁🌹🍆🦇🐢🖤☘️](.*?⚔:)(.+)/, (msg) => {
     if(msg.forward_from&&msg.forward_from.id===265204902) {
+      console.log(date.nearestBattleTime(new Date()))
       const chatId = msg.chat.id;
       if ((msg.date - msg.forward_date) > 600) {
         bot.sendMessage(chatId, 'Пришли мне, пожалуйста, свежий репорт.', {reply_to_message_id: msg.message_id});

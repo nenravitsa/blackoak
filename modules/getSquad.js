@@ -7,8 +7,7 @@ const getSquad = (bot) => {
     Warrior.find({ }, { lvl: 1, attack: 1, protec:1, castle:1, cw_name:1, _id: 0 } ).sort({'lvl':-1})
       .then(
         (squad) => {
-          console.log(squad)
-          const team = squad.map(v=>v.lvl+"  "+v.attack+"   "+v.protec+"   "+v.castle+"   "+v.cw_name);
+          const team = squad.map(v=>v.lvl+"  "+format(v.attack)+"   "+format(v.protec)+"   "+v.castle+"   "+v.cw_name);
           const message = '🦉 *Black Oak Squad* 🦉\n\n'
             +'⭐️ ⚔️ 🛡  🏰   🐨\n'
             +team.join('\n')
