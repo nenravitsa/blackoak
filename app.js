@@ -31,20 +31,30 @@ else bot = new TelegramBot(TOKEN, {polling: true});
 
 //connect to DB
 mongoose.connect(mongoURI, { useNewUrlParser: true });
-mongoose.connection.once('open', ()=>{console.log('connection has been made')})
-  .on('error', error=>console.log(error));
+mongoose.connection.once('open', ()=>{
+  console.log('connection has been made')
+}).on('error', error=>console.log(error));
 
-//set scheduler
-let chats;
-Squad.find({}).then(res=>{
-  chats = res.map(v=>v.chat_id);
-  scheduler.scheduleJob('0 0 6,14,22 ? * * *', function(){
-    console.log('unpin')
-    for(let i=0; i<chats.length; i++) {
-      bot.unpinChatMessage(chats[i])
-    }
-  });
-}).catch(err=>console.log(err));
+const getChats = async () => {
+  try {
+    const chatsRaw = await Squad.find({})
+    return chatsRaw.map(v => v.chat_id)
+  }
+  catch (e) {console.log(e)}
+}
+
+const getAdmins = async (chats) => {
+  try {
+    const adminsRaw = chats.map(async ch => {
+      return await bot.getChatAdministrators(ch)
+    });
+    return Promise.all(adminsRaw).then(res => {
+      const admins = res.reduce((a, b) => a.concat(b)).map(v => v.user.id);
+      return [...new Set(admins)];
+    });
+  }
+  catch (e) {console.log(e)}
+}
 
 //all operations
 receiveReport(bot);
@@ -58,9 +68,22 @@ lastReport(bot);
 squadInfo.addSquad(bot);
 squadInfo.deleteSquad(bot);
 
-//pin and unpin message in all chats
-pin.pinForAll(bot);
-pin.unpinForAll(bot);
+
+//set scheduler
+//functions for pin and unpin message in all chats
+getChats().then(chats=>{
+  scheduler.scheduleJob('0 0 6,14,22 ? * * *', function(){
+    console.log('unpin')
+    for(let i=0; i<chats.length; i++) {
+      bot.unpinChatMessage(chats[i])
+    }
+  });
+  getAdmins(chats).then(admins=>{
+    pin.pinForAll(bot, chats, admins);
+    pin.unpinForAll(bot, chats, admins);
+  })
+
+})
 
 //dev option only, for get some info about chat, user or message
 //readAll(bot);
