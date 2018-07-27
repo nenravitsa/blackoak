@@ -6,5 +6,5 @@ const getGeneral = (squad, type) => {
   return stats.reduce((a,b)=>a+b)
 };
 
-module.exports = {getGeneral};
+module.exports = getGeneral;
 
