@@ -12,20 +12,24 @@ const lastReport = (bot) => {
           battles: {$elemMatch: {date: b_time.toISOString()}},
           _id: 0
       }).then(res => {
-        const b = res.map(v=>v.battles[0]);
-        const message =
-        `
-          ⚔️*Результаты последней битвы* ⚔️
-          👫 Участвовали *${b.length}* человек 
-          🔥 Всего опыта: *${getGeneral(b, 'exp')}*
-          💰 Всего золота: *${getGeneral(b,'gold')}*
-          📦 Всего ресурсов: *${getGeneral(b, 'stock')}*
-        `;
-        bot.sendMessage(chatId, message, {
-          parse_mode: "Markdown"
-        });
-      }).catch(err=>console.log('stat last ', err))
-
+        if (!res || res.length === 0) {
+          bot.sendMessage(chatId, 'Пока никто не прислал репорт 😥')
+        }
+        else{
+          const b = res.map(v => v.battles[0]);
+          const message =
+            `
+            ⚔️*Результаты последней битвы* ⚔️
+            👫 Участвовали *${b.length}* человек 
+            🔥 Всего опыта: *${getGeneral(b, 'exp')}*
+            💰 Всего золота: *${getGeneral(b, 'gold')}*
+            📦 Всего ресурсов: *${getGeneral(b, 'stock')}*
+          `;
+          bot.sendMessage(chatId, message, {
+            parse_mode: "Markdown"
+          });
+        }})
+        .catch(err=>console.log('stat last ', err))
     }
   })
 }

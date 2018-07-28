@@ -14,6 +14,7 @@ const lastReport = require('./modules/lastReport');
 mongoose.Promise = global.Promise;
 const Squad = require('./models/squad');
 const scheduler = require('node-schedule');
+const initialize = require('./modules/adminMenu');
 
 const options = {
   webHook: {
@@ -38,14 +39,14 @@ mongoose.connection.once('open', ()=>{
 const getChats = async () => {
   try {
     const chatsRaw = await Squad.find({})
-    return chatsRaw.map(v => v.chat_id)
+    return {id:chatsRaw.map(v => v.chat_id),title:chatsRaw.map(v => v.name)}
   }
   catch (e) {console.log(e)}
 }
 
 const getAdmins = async (chats) => {
   try {
-    const adminsRaw = chats.map(async ch => {
+    const adminsRaw = chats.id.map(async ch => {
       return await bot.getChatAdministrators(ch)
     });
     return Promise.all(adminsRaw).then(res => {
@@ -74,13 +75,14 @@ squadInfo.deleteSquad(bot);
 getChats().then(chats=>{
   scheduler.scheduleJob('0 0 6,14,22 ? * * *', function(){
     console.log('unpin')
-    for(let i=0; i<chats.length; i++) {
-      bot.unpinChatMessage(chats[i])
+    for(let i=0; i<chats.id.length; i++) {
+      bot.unpinChatMessage(chats.id[i])
     }
   });
   getAdmins(chats).then(admins=>{
-    pin.pinForAll(bot, chats, admins);
-    pin.unpinForAll(bot, chats, admins);
+    initialize(bot, chats, admins);
+    pin.pinForAll(bot, chats.id, admins);
+    pin.unpinForAll(bot, chats.id, admins);
   })
 
 })
