@@ -13,7 +13,7 @@ const pin = require('./modules/pin');
 const lastReport = require('./modules/lastReport');
 mongoose.Promise = global.Promise;
 const Squad = require('./models/squad');
-const scheduler = require('node-schedule');
+const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
 
 const options = {
@@ -69,11 +69,10 @@ lastReport(bot);
 squadInfo.addSquad(bot);
 squadInfo.deleteSquad(bot);
 
-
 //set scheduler
 //functions for pin and unpin message in all chats
 getChats().then(chats=>{
-  scheduler.scheduleJob('0 0 6,14,22 ? * * *', function(){
+  schedule.scheduleJob('0 0 6,14,22 ? * * *', function(){
     console.log('unpin')
     for(let i=0; i<chats.id.length; i++) {
       bot.unpinChatMessage(chats.id[i])
