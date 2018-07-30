@@ -72,7 +72,7 @@ squadInfo.deleteSquad(bot);
 //set scheduler
 //functions for pin and unpin message in all chats
 getChats().then(chats=>{
-  schedule.scheduleJob('0 0 6,14,22 ? * * *', function(){
+  schedule.scheduleJob('0 6,14,22 * * *', function(){
     console.log('unpin')
     for(let i=0; i<chats.id.length; i++) {
       bot.unpinChatMessage(chats.id[i])

@@ -13,7 +13,6 @@ const getLost = (bot) => {
         cw_name: 1,
         _id: 0
       }).then(res => {
-        console.log(res)
         if (!res || (res && res.length === 0)) {
           bot.sendMessage(chatId, '💯 /ogo! Сегодня на битве были все! 💯');
         }

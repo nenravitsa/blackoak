@@ -18,7 +18,6 @@ const getSquad = (bot) => {
       }).sort({'lvl': -1})
         .then(
           (squad) => {
-            console.log(squad)
             const team = squad.map((v) => `${v.castle} ${v.cw_name}\n ${format(v.lvl.toString())}  ${format(v.attack.toString())}  ${format(v.protec.toString())}`);
             const message =
               `*${msg.chat.title}*\n\n`

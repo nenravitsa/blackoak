@@ -4,12 +4,14 @@ const Warrior = require('../models/warrior');
 const weekReport = (bot) => {
   bot.onText(/\/week/, (msg) => {
     const chatId = msg.chat.id;
-    const b_time = date.nearestBattleTime(new Date());
-    Warrior.find({
-      battles:{$elemMatch: { date: { $gte: date.getLastSunday(b_time).toISOString(), $lte:  b_time.toISOString()}}}
-    })
-      .then(res=>console.log())
-    bot.sendMessage(chatId, 'Тест!');
+    const b_time = date.nearestBattleTime(new Date()).toISOString();
+    const sunday = date.getLastSunday(b_time).toISOString();
+    Warrior.aggregate([
+      {$match:{squad: msg.chat.title}},
+      {$unwind: "$battles"},
+      {$match:{battles:{ $elemMatch: {date: { $gte: sunday}}}}},
+      {$group:{_id:'$cw_name', week_battles:{$push:'$battles'}}}
+    ]).then(res => console.log(res))
   });
 };
 
