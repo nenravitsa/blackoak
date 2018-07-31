@@ -15,6 +15,7 @@ mongoose.Promise = global.Promise;
 const Squad = require('./models/squad');
 const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
+const sleep = require('./modules/pingSleeping');
 
 const options = {
   webHook: {
@@ -38,7 +39,7 @@ mongoose.connection.once('open', ()=>{
 
 const getChats = async () => {
   try {
-    const chatsRaw = await Squad.find({})
+    const chatsRaw = await Squad.find({});
     return {id:chatsRaw.map(v => v.chat_id),title:chatsRaw.map(v => v.name)}
   }
   catch (e) {console.log(e)}
@@ -64,6 +65,7 @@ squad(bot);
 lost(bot);
 receiveHero(bot);
 lastReport(bot);
+sleep(bot);
 
 //monitors the addition and removal of the bot from the chats
 squadInfo.addSquad(bot);

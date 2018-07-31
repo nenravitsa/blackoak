@@ -32,7 +32,7 @@ const receiveReport = (bot) => {
           const attack = stats.getStats(msg.text.match(/⚔:(\d+\(?[+-]?\d*)/)[1]);
           const protec = stats.getStats(msg.text.match(/🛡:(\d+\(?[+-]?\d*)/)[1]);
           const castle = msg.text.match(/(🍁|🌹|🍆|🦇|🐢|🖤|☘️)/)[1];
-          const cw_name = msg.text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\]]+)/)[1];
+          const cw_name = msg.text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\] _]+)/)[1];
           if(res==null){
             const warrior = new Warrior({
               t_id:msg.from.id,
