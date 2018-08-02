@@ -1,17 +1,11 @@
 const date = require('../helpers/date');
 const Warrior = require('../models/warrior');
-const mongoose = require('mongoose');
-
 
 const weekReport = (bot) => {
   bot.onText(/\/week/, (msg) => {
     const chatId = msg.chat.id;
-    const b_time = date.nearestBattleTime(new Date()).toISOString();
+    const b_time = date.nearestBattleTime(new Date());
     const sunday = date.getLastSunday(b_time);
-    // Warrior.find({squad: msg.chat.title}, {
-    //   battles: {$all: {date: {$gte: sunday}}},
-    //   _id: 0
-    // }).then(res => console.log(res))
     Warrior.aggregate([
       {$unwind: "$battles"},
       {$match:{squad: msg.chat.title, 'battles.date':{$gte: sunday}}},
@@ -21,9 +15,18 @@ const weekReport = (bot) => {
           totalGold:{$sum:"$battles.gold"},
           totalStock:{$sum:"$battles.stock"}
         }
+      },
+      {$sort:{amount:-1}}
+      ]).then(res => {
+      if (!res || res.length === 0) {
+        bot.sendMessage(chatId, 'Пока никто не прислал репорт 😥')
       }
-      ]).then(res => console.log(res)).catch(console.log)
-    //bot.sendMessage(chatId, 'test', {reply_to_message_id: msg.message_id});
+      else {
+        const report = res.map((v, i)=>`#${i+1} ${v._id} [Битв: ${v.amount}] \n 🔥${v.totalExp} 💰 ${v.totalGold} 📦 ${v.totalStock}`);
+        const message = 'Отчет за текущую неделю: \n' + report.join('\n');
+        bot.sendMessage(chatId, message);
+      }
+    }).catch(console.log)
   });
 };
 

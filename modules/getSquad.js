@@ -25,10 +25,10 @@ const getSquad = (bot) => {
               + '⭐️ ⚔️  🛡\n'
               + team.join('\n')
               + '\n➖➖➖➖➖➖➖\n'
-              + '*Средний уровень*: ' + getGeneral(squad, 'lvl') + '\n'
-              + '*Количество участников*: ' + squad.length + '\n'
-              + '*Общая атака*: ' + getGeneral(squad, 'attack') + '\n'
-              + '*Общая защита*: ' + getGeneral(squad, 'protec')
+              + 'Средний уровень: ' + getGeneral(squad, 'lvl') + '\n'
+              + 'Количество участников: ' + squad.length + '\n'
+              + 'Общая атака: ' + getGeneral(squad, 'attack') + '\n'
+              + 'Общая защита: ' + getGeneral(squad, 'protec')
             ;
             bot.sendMessage(chatId, message);
           }

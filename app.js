@@ -16,6 +16,7 @@ const Squad = require('./models/squad');
 const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
 const sleep = require('./modules/pingSleeping');
+const Warrior = require('./models/warrior');
 
 const options = {
   webHook: {
@@ -84,7 +85,11 @@ getChats().then(chats=>{
     pin.pinForAll(bot, chats.id, admins);
     pin.unpinForAll(bot, chats.id, admins);
   })
+});
 
+//clean up db every sunday
+schedule.scheduleJob('58 21 * * 0', () => {
+  Warrior.update({},{$unset:{battles:""}}, { multi: true })
 })
 
 //dev option only, for get some info about chat, user or message
