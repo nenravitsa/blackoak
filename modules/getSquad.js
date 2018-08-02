@@ -19,6 +19,7 @@ const getSquad = (bot) => {
         .then(
           (squad) => {
             const team = squad.map((v) => `${v.castle} ${v.cw_name}\n ${format(v.lvl.toString())}  ${format(v.attack.toString())}  ${format(v.protec.toString())}`);
+
             const message =
               `*${msg.chat.title}*\n\n`
               + '⭐️ ⚔️  🛡\n'
@@ -29,9 +30,7 @@ const getSquad = (bot) => {
               + '*Общая атака*: ' + getGeneral(squad, 'attack') + '\n'
               + '*Общая защита*: ' + getGeneral(squad, 'protec')
             ;
-            bot.sendMessage(chatId, message, {
-              parse_mode: "Markdown"
-            });
+            bot.sendMessage(chatId, message);
           }
         )
         .catch((err) => console.log(err))
