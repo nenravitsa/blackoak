@@ -17,6 +17,7 @@ const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
 const sleep = require('./modules/pingSleeping');
 const receiveMotto = require('./modules/motto');
+const achievementQueries = require('./modules/achievementQueries')
 const Warrior = require('./models/warrior');
 
 const options = {
@@ -69,6 +70,7 @@ receiveHero(bot);
 lastReport(bot);
 sleep(bot);
 receiveMotto(bot);
+achievementQueries(bot);
 
 //monitors the addition and removal of the bot from the chats
 squadInfo.addSquad(bot);

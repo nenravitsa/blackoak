@@ -10,6 +10,12 @@ const addSquad = (bot) => {
       });
       squad.save().then().catch(err=>console.log("new squad error: ",err))
     }
+    if(msg.new_chat_title) {
+      Squad.findOneAndUpdate({chat_id:msg.chat.id},{name:msg.chat.title}).catch(err=>console.log(err))
+    }
+    if(msg.migrate_from_chat_id) {
+      Squad.findOneAndUpdate({name:msg.chat.title},{chat_id:msg.chat.id}).catch(err=>console.log(err))
+    }
   });
 };
 

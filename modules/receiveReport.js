@@ -3,7 +3,7 @@ const date = require('../helpers/date');
 const stats = require('../helpers/getStats');
 const update = require('../helpers/update');
 const messages = require('../messages');
-const getAch = require('../helpers/getAchievement')
+const getAch = require('../helpers/getAchievement');
 
 const receiveReport = (bot) => {
   bot.onText(/[🍁🌹🍆🦇🐢🖤☘️](.*?⚔:)(.+)/, (msg) => {

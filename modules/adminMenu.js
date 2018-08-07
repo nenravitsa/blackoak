@@ -43,7 +43,7 @@ const initialize = (bot, chats, admins) => {
           let message = '';
           Warrior.findOne({t_id:msg.from.id}, {achievements:1, _id:0})
             .then(res => {
-              if(!res.achievements||res.achievements.length===0){
+              if(res.achievements==null||res.achievements.length===0){
                 bot.sendMessage(msg.chat.id, 'Ачивок пока нет 😔')
               }
               else {
