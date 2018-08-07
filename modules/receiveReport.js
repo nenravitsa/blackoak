@@ -65,14 +65,19 @@ const receiveReport = (bot) => {
           }
           else {
             if(!res.squad){update.updateWarrior(msg.from.id, 'squad', msg.chat.title)}
-            if(res.t_id!==msg.from.id) {bot.sendMessage(chatId, 'Это не твой репорт. Не обманывай.', {reply_to_message_id: msg.message_id});}
+            if(res.t_id!==msg.from.id) {
+              bot.sendMessage(chatId, 'Это не твой репорт. Не обманывай.', {reply_to_message_id: msg.message_id});
+              getAch(bot, msg.from.id, '🐞 Нереальный жучара')
+            }
             if(res.lvl!==lvl){update.updateWarrior(msg.from.id, 'lvl', lvl)}
             if(res.attack!==attack){update.updateWarrior(msg.from.id, 'attack', attack)}
             if(res.protec!==protec){update.updateWarrior(msg.from.id, 'protec', protec)}
             if(res.castle!==castle){update.updateWarrior(msg.from.id, 'castle', castle)}
             if(res.cw_name!==cw_name){update.updateWarrior(msg.from.id, 'cw_name', cw_name)}
+
             if (~res.battles.findIndex(v=>v.date.getTime()===b_date.getTime())){
               bot.sendMessage(chatId, 'Репорт уже принят!', {reply_to_message_id: msg.message_id})
+              getAch(bot, msg.from.id, '🔁 Повторение мать учения')
             }
             else {
               res.battles.push(battle);
@@ -82,6 +87,18 @@ const receiveReport = (bot) => {
                   getAch(bot, msg.from.id, ach)
                 }
               }).catch(err => console.error(err))
+              if(b_date.getUTCHours()===22) {
+                Warrior.findOne({t_id: msg.from.id, achievements:{ "$ne" : "🤝 Надежный боец" }}, {battles: {$slice: -3}, _id: 0})
+                  .then(res => {
+                    const {battles} = res
+                    if (battles && battles.length === 3) {
+                      const result = battles.map(v => v.date.getUTCHours())
+                      const q = result === [6, 14, 22]
+                      console.log(result, q)
+                      if(q) getAch(bot, msg.from.id, '🤝 Надежный боец')
+                    }
+                  })
+              }
             }
           }
         });

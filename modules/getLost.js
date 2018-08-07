@@ -7,8 +7,7 @@ const getLost = (bot) => {
     const chatId = msg.chat.id;
     if(!check(chatId, msg.from.id, bot)) {
       const b_time = date.nearestBattleTime(new Date());
-      console.log(b_time.toISOString())
-      Warrior.find({squad: msg.chat.title, 'battles.date': {$ne: b_time.toISOString()}}, {
+      Warrior.find({squad: msg.chat.title, 'battles.date': {$ne: b_time}}, {
         t_name: 1,
         cw_name: 1,
         _id: 0

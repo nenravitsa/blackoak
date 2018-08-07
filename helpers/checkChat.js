@@ -1,5 +1,5 @@
 const check = (chatID, userID, bot) => {
-  if ((chatID === userID) || (chatID === -1001175776732)) {
+  if (chatID === userID) {
     const sticker = 'CAADAgADTBAAAkvcAwABpCaNtoShBhAC'
     bot.sendSticker(chatID, sticker)
     return true
