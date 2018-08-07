@@ -14,12 +14,13 @@ const OakWarriorSchema = new Schema({
   t_id: Number,
   t_name: String,
   cw_name: String,
-  castle:String,
-  squad:String,
-  lvl:Number,
+  castle: String,
+  squad: String,
+  lvl: Number,
   attack: Number,
   protec: Number,
-  battles: [BattleSchema]
+  battles: [BattleSchema],
+  achievements: Array
 });
 
 const Warrior = mongoose.model('oak', OakWarriorSchema);

@@ -16,6 +16,7 @@ const Squad = require('./models/squad');
 const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
 const sleep = require('./modules/pingSleeping');
+const receiveMotto = require('./modules/motto');
 const Warrior = require('./models/warrior');
 
 const options = {
@@ -67,6 +68,7 @@ lost(bot);
 receiveHero(bot);
 lastReport(bot);
 sleep(bot);
+receiveMotto(bot);
 
 //monitors the addition and removal of the bot from the chats
 squadInfo.addSquad(bot);
@@ -90,7 +92,7 @@ getChats().then(chats=>{
 //clean up db every sunday
 schedule.scheduleJob('58 21 * * 0', () => {
   Warrior.update({},{$unset:{battles:""}}, { multi: true })
-})
+});
 
 //dev option only, for get some info about chat, user or message
 //readAll(bot);

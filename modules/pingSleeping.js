@@ -24,9 +24,7 @@ const pingSleeping = (bot) => {
         const clearRes = res.filter(v => v != null);
         const names = clearRes.map(v => '@' + v.t_name);
         const message = `Скоро битва, не спать! ${names.join(', ')}`;
-        bot.sendMessage(chatId, message, {
-          parse_mode: "Markdown"
-        });
+        bot.sendMessage(chatId, message);
       })
     }
   });
