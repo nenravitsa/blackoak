@@ -93,5 +93,5 @@ schedule.scheduleJob('59 21 * * 0', () => {
 });
 
 //dev option only, for get some info about chat, user or message
-//readAll(bot);
+readAll(bot);
 

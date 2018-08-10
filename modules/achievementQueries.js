@@ -8,23 +8,25 @@ const achievementQueries = (bot) => {
         bot.sendMessage(msg.chat.id, 'Нужно свежее сообщение. Ты не успел, увы!', {reply_to_message_id: msg.message_id});
       }
       else {
-        getAch(bot, msg.from.id, "🐫 Защитник корована");
-        Warrior.findOne({t_id: id}, {_id: 0, caravans: 1}).then(res => {
-          const caravansCount = res.caravans;
-          const newCount = caravansCount ? caravansCount + 1 : 1;
-          Warrior.findOneAndUpdate({t_id: id}, {caravans: newCount}).then(res => console.log("caravan: ", res.t_name)).catch(err => console.log(err))
-          switch (newCount) {
-            case 10:
-              getAch(bot, msg.from.id, '🦁 Гроза воришек');
-              break;
-            case 50:
-              getAch(bot, msg.from.id, '⚡️️ Бдителен и стремителен');
-              break;
-            case 100:
-              getAch(bot, msg.from.id, '🥇️ Unstoppable');
-              break;
-            default:
-              break
+        Warrior.findOne({t_id: id}, {_id: 0, caravans: 1, t_id:1}).then(res => {
+          if(res&&res.t_id===msg.from.id) {
+            const caravansCount = res.caravans;
+            const newCount = caravansCount ? caravansCount + 1 : 1;
+            Warrior.findOneAndUpdate({t_id: id}, {caravans: newCount}).then(res => console.log("caravan: ", res.t_name)).catch(err => console.log(err))
+            switch (newCount) {
+              case 10:
+                getAch(bot, msg.from.id, '🦁 Гроза воришек');
+                break;
+              case 50:
+                getAch(bot, msg.from.id, '⚡️️ Бдителен и стремителен');
+                break;
+              case 100:
+                getAch(bot, msg.from.id, '🥇️ Unstoppable');
+                break;
+              default:
+                getAch(bot, msg.from.id, "🐫 Защитник корована");
+                break;
+            }
           }
         })
       }

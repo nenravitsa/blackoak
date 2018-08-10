@@ -45,6 +45,7 @@ const receiveReport = (bot) => {
           const protec = stats.getStats(msg.text.match(/🛡:(\d+\(?[+-]?\d*)/)[1]);
           const castle = msg.text.match(/(🍁|🌹|🍆|🦇|🐢|🖤|☘️)/)[1];
           const cw_name = msg.text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\] _]+)/)[1];
+
           if(res==null){
             const warrior = new Warrior({
               t_id:msg.from.id,
@@ -64,6 +65,10 @@ const receiveReport = (bot) => {
             }).catch(err=> console.log('text',msg.text, 'err: ', err));
           }
           else {
+            if(res.cw_name!==cw_name) {
+              bot.sendMessage(chatId, 'Это не твой репорт. Не обманывай.', {reply_to_message_id: msg.message_id});
+              getAch(bot, msg.from.id, '🐞 Нереальный жучара')
+            }
             //update reports statistic
             const newReportsCount = res.reports ? (res.reports+1) : 1
             updateWarrior(msg.from.id, 'reports', newReportsCount)
@@ -79,10 +84,6 @@ const receiveReport = (bot) => {
             //add new warrior to squad
             if(!res.squad){updateWarrior(msg.from.id, 'squad', msg.chat.title)}
             //update warrior info if it's necessary
-            if(res.t_id!==msg.from.id) {
-              bot.sendMessage(chatId, 'Это не твой репорт. Не обманывай.', {reply_to_message_id: msg.message_id});
-              getAch(bot, msg.from.id, '🐞 Нереальный жучара')
-            }
             if(res.lvl!==lvl){updateWarrior(msg.from.id, 'lvl', lvl)}
             if(res.attack!==attack){updateWarrior(msg.from.id, 'attack', attack)}
             if(res.protec!==protec){updateWarrior(msg.from.id, 'protec', protec)}
