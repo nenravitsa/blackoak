@@ -6,7 +6,6 @@ const week = require('./modules/weekReport');
 const squad = require('./modules/getSquad');
 const receiveReport = require('./modules/receiveReport');
 const lost = require('./modules/getLost');
-const receiveHero = require('./modules/receiveHero');
 const squadInfo = require('./modules/updateSquadInfo');
 const readAll = require('./modules/test');
 const pin = require('./modules/pin');
@@ -16,7 +15,6 @@ const Squad = require('./models/squad');
 const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
 const sleep = require('./modules/pingSleeping');
-const receiveMotto = require('./modules/motto');
 const achievementQueries = require('./modules/achievementQueries')
 const Warrior = require('./models/warrior');
 
@@ -66,10 +64,8 @@ receiveReport(bot);
 week(bot);
 squad(bot);
 lost(bot);
-receiveHero(bot);
 lastReport(bot);
 sleep(bot);
-receiveMotto(bot);
 achievementQueries(bot);
 
 //monitors the addition and removal of the bot from the chats
@@ -92,7 +88,7 @@ getChats().then(chats=>{
 });
 
 //clean up db every sunday
-schedule.scheduleJob('58 21 * * 0', () => {
+schedule.scheduleJob('59 21 * * 0', () => {
   Warrior.update({},{battles:[]}, { multi: true })
 });
 
