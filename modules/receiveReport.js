@@ -1,7 +1,7 @@
 const Warrior = require('../models/warrior');
 const date = require('../helpers/date');
 const stats = require('../helpers/getStats');
-const update = require('../helpers/update');
+const updateWarrior = require('../helpers/update');
 const messages = require('../messages');
 const getAch = require('../helpers/getAchievement');
 
@@ -66,7 +66,7 @@ const receiveReport = (bot) => {
           else {
             //update reports statistic
             const newReportsCount = res.reports ? (res.reports+1) : 1
-            update.updateWarrior(msg.from.id, 'reports', newReportsCount)
+            updateWarrior(msg.from.id, 'reports', newReportsCount)
             switch (newReportsCount) {
               case 10: getAch(bot, msg.from.id, '👏 Верный гильдеец')
                 break
@@ -77,17 +77,17 @@ const receiveReport = (bot) => {
               default: break
             }
             //add new warrior to squad
-            if(!res.squad){update.updateWarrior(msg.from.id, 'squad', msg.chat.title)}
+            if(!res.squad){updateWarrior(msg.from.id, 'squad', msg.chat.title)}
             //update warrior info if it's necessary
             if(res.t_id!==msg.from.id) {
               bot.sendMessage(chatId, 'Это не твой репорт. Не обманывай.', {reply_to_message_id: msg.message_id});
               getAch(bot, msg.from.id, '🐞 Нереальный жучара')
             }
-            if(res.lvl!==lvl){update.updateWarrior(msg.from.id, 'lvl', lvl)}
-            if(res.attack!==attack){update.updateWarrior(msg.from.id, 'attack', attack)}
-            if(res.protec!==protec){update.updateWarrior(msg.from.id, 'protec', protec)}
-            if(res.castle!==castle){update.updateWarrior(msg.from.id, 'castle', castle)}
-            if(res.cw_name!==cw_name){update.updateWarrior(msg.from.id, 'cw_name', cw_name)}
+            if(res.lvl!==lvl){updateWarrior(msg.from.id, 'lvl', lvl)}
+            if(res.attack!==attack){updateWarrior(msg.from.id, 'attack', attack)}
+            if(res.protec!==protec){updateWarrior(msg.from.id, 'protec', protec)}
+            if(res.castle!==castle){updateWarrior(msg.from.id, 'castle', castle)}
+            if(res.cw_name!==cw_name){updateWarrior(msg.from.id, 'cw_name', cw_name)}
             //check if report already in base
             if (~res.battles.findIndex(v=>v.date.getTime()===b_date.getTime())){
               bot.sendMessage(chatId, 'Репорт уже принят!', {reply_to_message_id: msg.message_id})
