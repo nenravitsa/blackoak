@@ -93,7 +93,7 @@ getChats().then(chats=>{
 
 //clean up db every sunday
 schedule.scheduleJob('58 21 * * 0', () => {
-  Warrior.update({},{$unset:{battles:""}}, { multi: true })
+  Warrior.update({},{battles:[]}, { multi: true })
 });
 
 //dev option only, for get some info about chat, user or message

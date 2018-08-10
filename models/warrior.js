@@ -20,7 +20,10 @@ const OakWarriorSchema = new Schema({
   attack: Number,
   protec: Number,
   battles: [BattleSchema],
-  achievements: Array
+  achievements: Array,
+  reports:Number,
+  arenas:Number,
+  caravans:Number
 });
 
 const Warrior = mongoose.model('oak', OakWarriorSchema);

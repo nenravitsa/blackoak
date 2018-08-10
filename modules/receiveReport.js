@@ -64,7 +64,21 @@ const receiveReport = (bot) => {
             }).catch(err=> console.log('text',msg.text, 'err: ', err));
           }
           else {
+            //update reports statistic
+            const newReportsCount = res.reports ? (res.reports+1) : 1
+            update.updateWarrior(msg.from.id, 'reports', newReportsCount)
+            switch (newReportsCount) {
+              case 10: getAch(bot, msg.from.id, '👏 Верный гильдеец')
+                break
+              case 50: getAch(bot, msg.from.id, '✊️ Надежда гильдии')
+                break
+              case 100: getAch(bot, msg.from.id, '🎖️ Ветеран сражений')
+                break
+              default: break
+            }
+            //add new warrior to squad
             if(!res.squad){update.updateWarrior(msg.from.id, 'squad', msg.chat.title)}
+            //update warrior info if it's necessary
             if(res.t_id!==msg.from.id) {
               bot.sendMessage(chatId, 'Это не твой репорт. Не обманывай.', {reply_to_message_id: msg.message_id});
               getAch(bot, msg.from.id, '🐞 Нереальный жучара')
@@ -74,7 +88,7 @@ const receiveReport = (bot) => {
             if(res.protec!==protec){update.updateWarrior(msg.from.id, 'protec', protec)}
             if(res.castle!==castle){update.updateWarrior(msg.from.id, 'castle', castle)}
             if(res.cw_name!==cw_name){update.updateWarrior(msg.from.id, 'cw_name', cw_name)}
-
+            //check if report already in base
             if (~res.battles.findIndex(v=>v.date.getTime()===b_date.getTime())){
               bot.sendMessage(chatId, 'Репорт уже принят!', {reply_to_message_id: msg.message_id})
               getAch(bot, msg.from.id, '🔁 Повторение мать учения')
