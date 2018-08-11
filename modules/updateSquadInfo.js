@@ -25,9 +25,8 @@ const deleteSquad = (bot) => {
         Squad.findOneAndRemove({chat_id:msg.chat.id}).then().catch(err=>console.log("del squad: ", err))
         Warrior.deleteMany({squad:msg.chat.title})
     }
-    else if(msg.left_chat_member&&chatID !== -1001175776732){
-      Warrior.findOneAndRemove({t_id:msg.left_chat_member.id}).then((res)=>{
-        console.log('Удалился: ', res.t_name);
+    else if(msg.left_chat_member&&msg.chat.id !== -1001175776732){
+      Warrior.findOneAndRemove({t_id:msg.left_chat_member.id}).then(()=>{
         bot.sendMessage(msg.chat.id, 'Боец исключен из отряда!')
       }).catch(err => console.log("del war: ", err))
     }

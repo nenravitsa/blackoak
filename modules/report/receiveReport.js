@@ -29,16 +29,16 @@ const receiveReport = (bot) => {
         Warrior.findOne({t_id:userId}).then((res)=>{
           if(res){
             const isName = res.cw_name===parse.cw_name;
-            const isFresh = ~res.battles.findIndex(v=>v.date.getTime()===b_date.getTime())
+            const isOld = ~res.battles.findIndex(v=>v.date.getTime()===b_date.getTime());
             if(!isName) {
               bot.sendMessage(chatId, 'Это не твой репорт. Не обманывай.', {reply_to_message_id: msg.message_id});
               getAch(bot, msg.from.id, '🐞 Нереальный жучара')
             }
-            if (!isFresh){
+            if (isOld){
               bot.sendMessage(chatId, 'Репорт уже принят!', {reply_to_message_id: msg.message_id});
               getAch(bot, msg.from.id, '🔁 Повторение мать учения')
             }
-            else if(isName&&isFresh) {
+            else if(isName&&!isOld) {
               updateUser(res, parse, userId, username, msg.chat.title, bot);
               const battle = {
                 date: b_date,

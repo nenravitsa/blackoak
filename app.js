@@ -67,6 +67,7 @@ lost(bot);
 lastReport(bot);
 sleep(bot);
 achievementQueries(bot);
+initialize(bot);
 
 //monitors the addition and removal of the bot from the chats
 squadInfo.addSquad(bot);
@@ -81,7 +82,6 @@ getChats().then(chats=>{
     }
   });
   getAdmins(chats).then(admins=>{
-    initialize(bot, chats, admins);
     pin.pinForAll(bot, chats.id, admins);
     pin.unpinForAll(bot, chats.id, admins);
   })
