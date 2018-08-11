@@ -4,7 +4,7 @@ const mongoURI = process.env.MONGO_URL||require('./parameters').path;
 const mongoose = require('mongoose');
 const week = require('./modules/weekReport');
 const squad = require('./modules/getSquad');
-const receiveReport = require('./modules/receiveReport');
+const receiveReport = require('./modules/report/receiveReport');
 const lost = require('./modules/getLost');
 const squadInfo = require('./modules/updateSquadInfo');
 const readAll = require('./modules/test');
@@ -93,5 +93,5 @@ schedule.scheduleJob('59 21 * * 0', () => {
 });
 
 //dev option only, for get some info about chat, user or message
-readAll(bot);
+//readAll(bot);
 

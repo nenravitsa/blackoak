@@ -8,6 +8,4 @@ const getStats = (str) => {
 };
 
 
-module.exports = {
-  getStats:getStats
-};
+module.exports = getStats;

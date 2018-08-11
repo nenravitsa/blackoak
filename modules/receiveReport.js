@@ -1,6 +1,6 @@
 const Warrior = require('../models/warrior');
 const date = require('../helpers/date');
-const stats = require('../helpers/getStats');
+const getStats = require('../helpers/getStats');
 const updateWarrior = require('../helpers/update');
 const messages = require('../messages');
 const getAch = require('../helpers/getAchievement');
@@ -41,8 +41,8 @@ const receiveReport = (bot) => {
         //check if player with provided telegram id already in db and create new if not
         Warrior.findOne({t_id:msg.from.id}).then((res)=>{
           const lvl = msg.text.match(/Lvl: (\d+)/)[1];
-          const attack = stats.getStats(msg.text.match(/⚔:(\d+\(?[+-]?\d*)/)[1]);
-          const protec = stats.getStats(msg.text.match(/🛡:(\d+\(?[+-]?\d*)/)[1]);
+          const attack = getStats(msg.text.match(/⚔:(\d+\(?[+-]?\d*)/)[1]);
+          const protec = getStats(msg.text.match(/🛡:(\d+\(?[+-]?\d*)/)[1]);
           const castle = msg.text.match(/(🍁|🌹|🍆|🦇|🐢|🖤|☘️)/)[1];
           const cw_name = msg.text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\] _]+)/)[1];
 
