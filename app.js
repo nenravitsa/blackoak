@@ -15,7 +15,7 @@ const Squad = require('./models/squad');
 const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
 const sleep = require('./modules/pingSleeping');
-const achievementQueries = require('./modules/achievementQueries')
+const achievementQueries = require('./modules/achievementQueries');
 const Warrior = require('./models/warrior');
 
 const options = {
