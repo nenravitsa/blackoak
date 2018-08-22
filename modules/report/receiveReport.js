@@ -10,15 +10,15 @@ const receiveReport = (bot) => {
   bot.onText(/[🍁🌹🍆🦇🐢🖤☘️](.*?⚔:)(.+)/, (msg) => {
     if(msg.forward_from&&msg.forward_from.id===265204902) {
       const chatId = msg.chat.id;
+      const userId = msg.from.id;
       if ((msg.date - msg.forward_date) > 600) {
         bot.sendMessage(chatId, 'Пришли мне, пожалуйста, свежий репорт.', {reply_to_message_id: msg.message_id});
         getAch(bot, userId, "⌛ Старо как мир")
       }
-      if(chatId === -1001175776732) {
-        getAch(bot, msg.from.id, "⛔ Не туда")
+      if(msg.chat.type==='private') {
+        getAch(bot, userId, "⛔ Не туда")
       }
       else {
-        const userId = msg.from.id;
         const username = msg.from.username;
         const b_date = date.nearestBattleTime(new Date());
         const parse = parseMessage(msg.text);
