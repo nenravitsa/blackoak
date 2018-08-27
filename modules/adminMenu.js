@@ -1,6 +1,6 @@
 const Warrior = require('../models/warrior');
 
-const initialize = (bot) => {
+const initialize = (bot, admins) => {
 
   const user_keyboard = {
     reply_markup: {
@@ -14,6 +14,29 @@ const initialize = (bot) => {
       bot.sendMessage(msg.chat.id, '🌟✨💫🌙', user_keyboard)
     }
   });
+
+  bot.onText(/\/stat/, (msg) => {
+    if(msg.chat.type==='private' && admins.includes(msg.from.id)){
+      Warrior.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalAttack: {
+              $sum: "$attack"
+            },
+            totalProtec: {
+              $sum: "$protec"
+            }
+          }
+        }
+      ]).then(
+        res => {
+          const report = `Общая защита: ${res[0].totalProtec} \n Общая атака: ${res[0].totalAttack}`;
+          bot.sendMessage(msg.chat.id, report);
+        }
+      )
+    }
+  })
 
   bot.onText(/(.+)/, (msg, match) => {
       if(msg.chat.type==='private'){

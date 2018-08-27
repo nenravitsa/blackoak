@@ -3,6 +3,7 @@ const pinForAll = (bot, chats, admins) => {
       if(admins.includes(msg.from.id)){
         const resp = match[1];
         for(let i=0; i<chats.length; i++){
+          console.log("PIN IN CHAT: ", chats[i]);
           bot.sendMessage(chats[i], resp).then(m => {
               bot.pinChatMessage(chats[i], m.message_id)}
           )

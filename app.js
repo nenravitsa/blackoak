@@ -67,7 +67,6 @@ lost(bot);
 lastReport(bot);
 sleep(bot);
 achievementQueries(bot);
-initialize(bot);
 
 //monitors the addition and removal of the bot from the chats
 squadInfo.addSquad(bot);
@@ -84,12 +83,13 @@ getChats().then(chats=>{
   getAdmins(chats).then(admins=>{
     pin.pinForAll(bot, chats.id, admins);
     pin.unpinForAll(bot, chats.id, admins);
+    initialize(bot, admins);
   })
 });
 
 //clean up db every sunday
 schedule.scheduleJob('59 21 * * 0', () => {
-  Warrior.update({},{battles:[]}, { multi: true })
+  Warrior.update( {}, {$unset: {battles: null }}, {multi: true});
 });
 
 //dev option only, for get some info about chat, user or message
