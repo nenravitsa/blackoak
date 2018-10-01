@@ -39,7 +39,10 @@ const initialize = (bot, admins, chats) => {
   })
   bot.onText(/\/delete (.+)/, (msg, match) => {
     if(admins.includes(msg.from.id)){
-      Warrior.findOneAndDelete({})
+      Warrior.findOneAndDelete({t_name: match[1]}).then(res => {
+        if(!res)  bot.sendMessage(msg.chat.id, "Такого пользователя нет в базе либо произошла другая ошибка. Извини :с")
+        else bot.sendMessage(msg.chat.id, "Боец удален из отряда!")
+      })
     }
   })
 
