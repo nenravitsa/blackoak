@@ -9,7 +9,7 @@ const parseMessage = (text) => {
   parse.attack = getStats(text.match(/⚔:(\d+\(?[+-]?\d*)/)[1]);
   parse.protec = getStats(text.match(/🛡:(\d+\(?[+-]?\d*)/)[1]);
   parse.castle = text.match(/(🍁|🌹|🍆|🦇|🐢|🖤|☘️)/)[1];
-  parse.cw_name = text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\] _]+)/)[1];
+  parse.cw_name = text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\] _-]+)/)[1];
   return parse;
 }
 

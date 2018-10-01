@@ -14,6 +14,7 @@ const pinForAll = (bot, chats, admins) => {
     if(admins.includes(msg.from.id)){
       const resp = match[1];
       for(let i=0; i<chats.length; i++){
+        console.log(chats[i]);
         bot.sendMessage(chats[i], resp)
           .then(m => bot.pinChatMessage(chats[i], m.message_id, {disable_notification:true})
         )

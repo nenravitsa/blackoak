@@ -3,6 +3,7 @@ const parseMessage = require('./parseMessage');
 const date = require('../../helpers/date');
 const messages = require('../../messages');
 const findAndUpdate = require('./findAndUpdate');
+const Warrior = require('../../models/warrior');
 
 const receiveReport = (bot) => {
   bot.onText(/[🍁🌹🍆🦇🐢🖤☘️](.*?⚔:)(.+)/, (msg) => {
@@ -16,14 +17,19 @@ const receiveReport = (bot) => {
       if(msg.chat.type==='private') {
         getAch(bot, userId, "⛔ Не туда")
       }
-      else {
+      else if((msg.date - msg.forward_date) < 600) {
         const username = msg.from.username;
         const b_date = date.nearestBattleTime(new Date());
         const parse = parseMessage(msg.text);
         let message, ach;
-        if(parse.exp === 0) {message = "В следующий раз не проспи!"; ach = "💤 Все проспал"}
+        Warrior.findOne({squad: msg.chat.title, 'battles.date': b_date.toISOString()}).then((res) => {
+          if (res == null) {
+            getAch(bot, msg.from.id, "💃 Самый быстрый воен дуба")
+          }
+        });
+        if(parse.exp === 0) {message = messages.lose[[Math.floor(Math.random() * messages.lose.length)]]; ach = "💤 Все проспал"}
         else if(parse.gold && parse.gold < 0){message = "Не забывай сливать голду, пирожочек!"; ach = '🙊 Расточитель богатств'}
-        else {message = messages[[Math.floor(Math.random() * messages.length)]]; ach=''}
+        else {message = messages.win[[Math.floor(Math.random() * messages.win.length)]]; ach=''}
         findAndUpdate(bot, msg, username, b_date, message, ach, parse)
       }
     }

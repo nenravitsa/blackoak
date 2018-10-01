@@ -1,6 +1,6 @@
 const Warrior = require('../models/warrior');
 
-const initialize = (bot, admins) => {
+const initialize = (bot, admins, chats) => {
 
   const user_keyboard = {
     reply_markup: {
@@ -37,6 +37,18 @@ const initialize = (bot, admins) => {
       )
     }
   })
+  bot.onText(/\/delete (.+)/, (msg, match) => {
+    if(admins.includes(msg.from.id)){
+      Warrior.findOneAndDelete({})
+    }
+  })
+
+  bot.onText(/\/chats/, (msg) => {
+    if(msg.chat.type==='private' && admins.includes(msg.from.id)) {
+      bot.sendMessage(msg.chat.id, chats.join('\n'))
+    }
+  })
+
 
   bot.onText(/(.+)/, (msg, match) => {
       if(msg.chat.type==='private'){

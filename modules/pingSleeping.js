@@ -1,5 +1,14 @@
 const Warrior = require('../models/warrior');
 
+Object.defineProperty(Array.prototype, 'chunk', {
+  value: function(chunkSize) {
+    const that = this;
+    return Array(Math.ceil(that.length/chunkSize)).fill().map(function(_,i){
+      return that.slice(i*chunkSize,i*chunkSize+chunkSize);
+    });
+  }
+});
+
 const getPingList = async (sleep) => {
   try {
     const get = sleep.map(async s => {
@@ -23,8 +32,8 @@ const pingSleeping = (bot) => {
       getPingList(sleep).then(res => {
         const clearRes = res.filter(v => v != null);
         const names = clearRes.map(v => '@' + v.t_name);
-        const message = `Скоро битва, не спать! ${names.join(', ')}`;
-        bot.sendMessage(chatId, message);
+        const chunks = names.chunk(5);
+        chunks.map(v => bot.sendMessage(chatId, `Скоро битва, не спать! ${v.join(', ')}`));
       })
     }
   });

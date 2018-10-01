@@ -19,6 +19,8 @@ const updateUser = (user, parse, id, username, squad, bot) => {
       break;
     case 100: getAch(bot, id, '🎖️ Ветеран сражений');
       break;
+    case 150: getAch(bot, id, '🌚 Легенда');
+      break;
     default: break
   }
 }

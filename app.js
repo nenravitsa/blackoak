@@ -16,6 +16,7 @@ const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
 const sleep = require('./modules/pingSleeping');
 const achievementQueries = require('./modules/achievementQueries');
+const changeName = require('./modules/changeName');
 const Warrior = require('./models/warrior');
 
 const options = {
@@ -67,6 +68,7 @@ lost(bot);
 lastReport(bot);
 sleep(bot);
 achievementQueries(bot);
+changeName(bot);
 
 //monitors the addition and removal of the bot from the chats
 squadInfo.addSquad(bot);
@@ -83,7 +85,7 @@ getChats().then(chats=>{
   getAdmins(chats).then(admins=>{
     pin.pinForAll(bot, chats.id, admins);
     pin.unpinForAll(bot, chats.id, admins);
-    initialize(bot, admins);
+    initialize(bot, admins, chats.title);
   })
 });
 
