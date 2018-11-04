@@ -2,10 +2,10 @@ const Warrior = require('../models/warrior');
 const date = require('../helpers/date');
 const check = require('../helpers/checkChat');
 
-const getLost = (bot) => {
+const getLost = (bot, admins) => {
   bot.onText(/\/lost/, (msg) => {
     const chatId = msg.chat.id;
-    if(!check(chatId, msg.from.id, bot)) {
+    if(!check(chatId, msg.from.id, bot)&&admins.includes(msg.from.id)) {
       const b_time = date.nearestBattleTime(new Date());
       Warrior.find({squad: msg.chat.title, 'battles.date': {$ne: b_time}}, {
         t_name: 1,

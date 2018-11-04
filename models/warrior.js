@@ -23,7 +23,8 @@ const OakWarriorSchema = new Schema({
   achievements: Array,
   reports:Number,
   arenas:Number,
-  caravans:Number
+  caravans:Number,
+  isAdmin: Boolean
 });
 
 const Warrior = mongoose.model('oak', OakWarriorSchema);

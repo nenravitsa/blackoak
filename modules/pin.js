@@ -1,6 +1,6 @@
 const pinForAll = (bot, chats, admins) => {
   bot.onText(/\/pin (.+)/, (msg, match) => {
-    console.log("Pin from: ", msg.from.id)
+    console.log("Pin from: ", msg.from.id);
       if(admins.includes(msg.from.id)){
         const resp = match[1];
         for(let i=0; i<chats.length; i++){
@@ -9,8 +9,9 @@ const pinForAll = (bot, chats, admins) => {
           )
         }
       }
-    })
+    });
   bot.onText(/\/spin (.+)/, (msg, match) => {
+    console.log("Pin from: ", msg.from.id);
     if(admins.includes(msg.from.id)){
       const resp = match[1];
       for(let i=0; i<chats.length; i++){

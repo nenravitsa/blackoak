@@ -18,7 +18,7 @@ const getLastSunday = (date) => {
 };
 
 const getMonday = (date) => {
-  let d = new Date(date)
+  let d = new Date(date);
   let day = d.getUTCDay(),
     diff = d.getUTCDate() - day + (day === 0 ? -6 : 1),
     monday = new Date(d.setUTCDate(diff));
@@ -27,6 +27,5 @@ const getMonday = (date) => {
 
 module.exports = {
   nearestBattleTime,
-  getMonday,
   getLastSunday
 };

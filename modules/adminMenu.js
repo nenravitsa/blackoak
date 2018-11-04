@@ -1,7 +1,6 @@
 const Warrior = require('../models/warrior');
 
 const initialize = (bot, admins, chats) => {
-
   const user_keyboard = {
     reply_markup: {
       resize_keyboard: true,
@@ -36,7 +35,7 @@ const initialize = (bot, admins, chats) => {
         }
       )
     }
-  })
+  });
   bot.onText(/\/delete (.+)/, (msg, match) => {
     if(admins.includes(msg.from.id)){
       Warrior.findOneAndDelete({t_name: match[1]}).then(res => {
@@ -44,13 +43,13 @@ const initialize = (bot, admins, chats) => {
         else bot.sendMessage(msg.chat.id, "Боец удален из отряда!")
       })
     }
-  })
+  });
 
   bot.onText(/\/chats/, (msg) => {
     if(msg.chat.type==='private' && admins.includes(msg.from.id)) {
       bot.sendMessage(msg.chat.id, chats.join('\n'))
     }
-  })
+  });
 
 
   bot.onText(/(.+)/, (msg, match) => {

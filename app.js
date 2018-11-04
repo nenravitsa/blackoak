@@ -45,26 +45,15 @@ const getChats = async () => {
     return {id:chatsRaw.map(v => v.chat_id),title:chatsRaw.map(v => v.name)}
   }
   catch (e) {console.log(e)}
-}
+};
 
-const getAdmins = async (chats) => {
-  try {
-    const adminsRaw = chats.id.map(async ch => {
-      return await bot.getChatAdministrators(ch)
-    });
-    return Promise.all(adminsRaw).then(res => {
-      const admins = res.reduce((a, b) => a.concat(b)).map(v => v.user.id);
-      return [...new Set(admins)];
-    });
-  }
-  catch (e) {console.log(e)}
-}
+const getAdmins = () => Warrior.find({isAdmin:true}, {_id:0, t_id: 1})
+    .then(res => res.map(v => v.t_id));
 
 //all operations
 receiveReport(bot);
 week(bot);
 squad(bot);
-lost(bot);
 lastReport(bot);
 sleep(bot);
 achievementQueries(bot);
@@ -77,15 +66,17 @@ squadInfo.deleteSquad(bot);
 //set scheduler
 //functions for pin and unpin message in all chats
 getChats().then(chats=>{
+  console.log(chats);
   schedule.scheduleJob('0 6,14,22 * * *', function(){
     for(let i=0; i<chats.id.length; i++) {
       bot.unpinChatMessage(chats.id[i])
     }
   });
-  getAdmins(chats).then(admins=>{
+  getAdmins().then(admins => {
     pin.pinForAll(bot, chats.id, admins);
     pin.unpinForAll(bot, chats.id, admins);
     initialize(bot, admins, chats.title);
+    lost(bot, admins);
   })
 });
 

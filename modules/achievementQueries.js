@@ -1,4 +1,5 @@
 const getAch = require('../helpers/getAchievement');
+const Warrior = require('../models/warrior');
 const mottoText = /Навечно вместе все, кто смел, кто тайну сохранить сумел! Навеки в радости и в грусти наш дуб злодеям не найти!/
 
 const achievementQueries = (bot) => {

@@ -6,6 +6,6 @@ const getAch = (bot, id, ach) => {
       if(res!=null) bot.sendMessage(id, 'Получено новое достижение: '+ ach);
     })
     .catch(err => console.log(err))
-}
+};
 
 module.exports = getAch;
