@@ -11,6 +11,6 @@ const parseMessage = (text) => {
   parse.castle = text.match(/(🍁|🌹|🍆|🦇|🐢|🖤|☘️)/)[1];
   parse.cw_name = text.match(/[🍁🌹🍆🦇🐢🖤☘️]([a-zA-Z0-9А-Яа-яёЁ\s\[\] _-]+)/)[1];
   return parse;
-}
+};
 
 module.exports = parseMessage;

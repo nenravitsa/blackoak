@@ -1,6 +1,7 @@
 const Warrior = require('../models/warrior');
+const getChats = require('../helpers/getChats');
 
-const initialize = (bot, admins, chats) => {
+const initialize = (bot, admins) => {
   const user_keyboard = {
     reply_markup: {
       resize_keyboard: true,
@@ -47,10 +48,17 @@ const initialize = (bot, admins, chats) => {
 
   bot.onText(/\/chats/, (msg) => {
     if(msg.chat.type==='private' && admins.includes(msg.from.id)) {
-      bot.sendMessage(msg.chat.id, chats.join('\n'))
+      getChats().then(chats => {
+        bot.sendMessage(msg.chat.id, chats.title.join('\n'))
+      });
     }
   });
 
+  bot.onText(/\/onetimecode/, (msg) => {
+    if(msg.chat.type==='private' && admins.includes(msg.from.id)) {
+     const oneTimeCode = (+new Date).toString(36).slice(-8);
+    }
+  });
 
   bot.onText(/(.+)/, (msg, match) => {
       if(msg.chat.type==='private'){

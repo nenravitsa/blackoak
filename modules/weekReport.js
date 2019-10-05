@@ -22,6 +22,7 @@ const weekReport = (bot) => {
         },
         {$sort: {amount: -1}}
       ]).then(res => {
+        console.log(res);
         if (!res || res.length === 0) {
           bot.sendMessage(chatId, 'Пока никто не прислал репорт 😥')
         }

@@ -5,7 +5,7 @@ const mottoText = /Навечно вместе все, кто смел, кто �
 const achievementQueries = (bot) => {
   bot.onText(/Ты задержал/, (msg) => {
     if(msg.forward_from&&msg.forward_from.id===265204902) {
-      if ((msg.date - msg.forward_date) > 300) {
+      if ((msg.date - msg.forward_date) > 3000) {
         bot.sendMessage(msg.chat.id, 'Нужно свежее сообщение. Ты не успел, увы!', {reply_to_message_id: msg.message_id});
       }
       else {
@@ -25,6 +25,7 @@ const achievementQueries = (bot) => {
                 getAch(bot, msg.from.id, '🥇️ Unstoppable');
                 break;
               default:
+                bot.sendMessage(msg.from.id, 'Принято!');
                 getAch(bot, msg.from.id, "🐫 Защитник корована");
                 break;
             }

@@ -11,6 +11,6 @@ const changeName = (bot) => {
       bot.sendMessage(msg.chat.id, 'Что-то пошло не так :(',  {reply_to_message_id: msg.message_id})
     })
   })
-}
+};
 
 module.exports = changeName;
