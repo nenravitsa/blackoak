@@ -4,14 +4,14 @@
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^2.3.1",
+    "canvas": "^2.6.1",
     "mocha": "^5.2.0",
     "mongoose": "^5.3.9",
     "node-schedule": "^1.3.0",
     "node-telegram-bot-api": "^0.30.0"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node src/app.js",
     "deploy": "now rm blackoak --yes && now --public && now alias",
     "watch": "nodemon app.js",
     "test": "mocha"

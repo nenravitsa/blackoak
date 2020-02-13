@@ -1,4 +1,4 @@
-const Warrior = require('../src/models/warrior');
+const Warrior = require('../models/warrior');
 const getGeneral = require('../helpers/statistics');
 const check = require('../helpers/checkChat');
 

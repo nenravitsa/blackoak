@@ -1,9 +1,9 @@
 const getAch = require('../../helpers/getAchievement');
 const parseMessage = require('./parseMessage');
 const date = require('../../helpers/date');
-const messages = require('../../../messages');
+const messages = require('../../messages');
 const findAndUpdate = require('./findAndUpdate');
-const Warrior = require('../../src/models/warrior');
+const Warrior = require('../../models/warrior');
 
 const receiveReport = bot => {
   bot.onText(/[🍁🌹🍆🦇🐢🖤☘️](.*?⚔:)(.+)/, msg => {

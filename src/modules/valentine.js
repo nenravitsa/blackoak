@@ -1,4 +1,4 @@
-const Warrior = require('../src/models/warrior');
+const Warrior = require('../models/warrior');
 const createValentine = require('../helpers/valentine/createValentine');
 
 const getPic = async message => await createValentine(message);

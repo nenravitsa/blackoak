@@ -1,4 +1,4 @@
-const Warrior = require('../src/models/warrior');
+const Warrior = require('../models/warrior');
 const getChats = require('../helpers/getChats');
 
 const initialize = (bot, admins) => {
