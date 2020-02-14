@@ -23,7 +23,7 @@ const getSquad = bot => {
         .then(squad => {
           const team = squad.map(
             v =>
-              `${v.castle} ${v.cw_name}\n ${format(v.lvl.toString())}  ${format(
+              `${v.castle} ${v.cw_name}\n ${format(v.lvl.toString())} ${format(
                 v.attack.toString()
               )}  ${format(v.protec.toString())}`
           );

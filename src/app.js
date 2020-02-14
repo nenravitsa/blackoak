@@ -1,7 +1,7 @@
-const TOKEN = process.env.TOKEN;
-const mongoURI = process.env.MONGO_URL;
 const TelegramBot = require('node-telegram-bot-api');
 const mongoose = require('mongoose');
+const schedule = require('node-schedule');
+
 const week = require('./modules/weekReport');
 const squad = require('./modules/getSquad');
 const receiveReport = require('./modules/report/receiveReport');
@@ -9,28 +9,35 @@ const lost = require('./modules/getLost');
 const squadInfo = require('./modules/updateSquadInfo');
 const pin = require('./modules/pin');
 const lastReport = require('./modules/lastReport');
-mongoose.Promise = global.Promise;
-const schedule = require('node-schedule');
 const initialize = require('./modules/adminMenu');
 const sleep = require('./modules/pingSleeping');
 const achievementQueries = require('./modules/achievementQueries');
 const changeName = require('./modules/changeName');
 const Warrior = require('./models/warrior');
-const getChats = require('./helpers/getChats');
 const sendValentine = require('./modules/valentine');
+
+const getChats = require('./helpers/getChats');
+
+const TOKEN = process.env.TOKEN;
+const mongoURI = process.env.MONGO_URL;
+const isProduction = process.env.NODE_ENV === 'production';
+mongoose.Promise = global.Promise;
 
 const options = {
   webHook: {
     port: 9229
   }
 };
+
 let bot;
 //bot initialization
-if (process.env.NODE_ENV === 'production') {
+if (isProduction) {
   const url = 'blackoak.now.sh';
   bot = new TelegramBot(TOKEN, options);
   bot.setWebHook(`${url}/bot${TOKEN}`);
-} else bot = new TelegramBot(TOKEN, { polling: true });
+} else {
+  bot = new TelegramBot(TOKEN, { polling: true });
+}
 
 //connect to DB
 mongoose.connect(mongoURI, { useNewUrlParser: true });

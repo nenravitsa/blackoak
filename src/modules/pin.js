@@ -19,13 +19,11 @@ const pinForAll = (bot, admins) => {
       if (admins.includes(msg.from.id)) {
         const resp = match[1];
         for (let i = 0; i < chats.id.length; i++) {
-          bot
-            .sendMessage(chats.id[i], resp)
-            .then(m =>
-              bot.pinChatMessage(chats.id[i], m.message_id, {
-                disable_notification: true
-              })
-            );
+          bot.sendMessage(chats.id[i], resp).then(m =>
+            bot.pinChatMessage(chats.id[i], m.message_id, {
+              disable_notification: true
+            })
+          );
         }
       }
     });
