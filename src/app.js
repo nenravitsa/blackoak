@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const TelegramBot = require('node-telegram-bot-api');
 const mongoose = require('mongoose');
 const schedule = require('node-schedule');
@@ -25,8 +27,8 @@ mongoose.Promise = global.Promise;
 
 const options = {
   webHook: {
-    port: 9229
-  }
+    port: 9229,
+  },
 };
 
 let bot;
@@ -45,11 +47,11 @@ mongoose.connection
   .once('open', () => {
     console.log('connection has been made');
   })
-  .on('error', error => console.log(error));
+  .on('error', (error) => console.log(error));
 
 const getAdmins = () =>
-  Warrior.find({ isAdmin: true }, { _id: 0, t_id: 1 }).then(res =>
-    res.map(v => v.t_id)
+  Warrior.find({ isAdmin: true }, { _id: 0, t_id: 1 }).then((res) =>
+    res.map((v) => v.t_id)
   );
 
 //all operations
@@ -68,20 +70,20 @@ sendValentine(bot);
 
 //set scheduler
 //functions for pin and unpin message in all chats
-getChats().then(chats => {
-  schedule.scheduleJob('0 6,14,22 * * *', function() {
+getChats().then((chats) => {
+  schedule.scheduleJob('0 6,14,22 * * *', function () {
     for (let i = 0; i < chats.id.length; i++) {
       bot.unpinChatMessage(chats.id[i]);
     }
   });
-  schedule.scheduleJob('0 10 * * *', function() {
+  schedule.scheduleJob('0 10 * * *', function () {
     for (let i = 0; i < chats.id.length; i++) {
-      bot.sendMessage(chats.id[i], 'Аренки! 🌝').then(m => {
+      bot.sendMessage(chats.id[i], 'Аренки! 🌝').then((m) => {
         bot.pinChatMessage(chats.id[i], m.message_id);
       });
     }
   });
-  getAdmins().then(admins => {
+  getAdmins().then((admins) => {
     pin.pinForAll(bot, admins);
     pin.unpinForAll(bot, admins);
     initialize(bot, admins);
