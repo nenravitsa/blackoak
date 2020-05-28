@@ -2,8 +2,8 @@ const Warrior = require('../models/warrior');
 const check = require('../helpers/checkChat');
 const date = require('../helpers/date');
 
-const weekReport = bot => {
-  bot.onText(/\/week/, msg => {
+const weekReport = (bot) => {
+  bot.onText(/\/week/, (msg) => {
     const chatId = msg.chat.id;
     if (!check(chatId, msg.from.id, bot)) {
       const b_time = date.nearestBattleTime(new Date());
@@ -17,12 +17,12 @@ const weekReport = bot => {
             amount: { $sum: 1 },
             totalExp: { $sum: '$battles.exp' },
             totalGold: { $sum: '$battles.gold' },
-            totalStock: { $sum: '$battles.stock' }
-          }
+            totalStock: { $sum: '$battles.stock' },
+          },
         },
-        { $sort: { amount: -1 } }
+        { $sort: { amount: -1 } },
       ])
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (!res || res.length === 0) {
             bot.sendMessage(chatId, 'Пока никто не прислал репорт 😥');

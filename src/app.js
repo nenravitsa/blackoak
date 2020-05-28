@@ -42,7 +42,7 @@ if (isProduction) {
 }
 
 //connect to DB
-mongoose.connect(mongoURI, { useNewUrlParser: true });
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection
   .once('open', () => {
     console.log('connection has been made');
