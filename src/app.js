@@ -20,9 +20,6 @@ const sendValentine = require('./modules/valentine');
 
 const getChats = require('./helpers/getChats');
 
-const TOKEN = process.env.TOKEN;
-const mongoURI = process.env.MONGO_URL;
-const isProduction = process.env.NODE_ENV === 'production';
 mongoose.Promise = global.Promise;
 
 const options = {
@@ -30,19 +27,22 @@ const options = {
     port: 9229,
   },
 };
-
+console.log(process.env);
 let bot;
 //bot initialization
-if (isProduction) {
+if (process.env.NODE_ENV === 'production') {
   const url = 'blackoak.now.sh';
-  bot = new TelegramBot(TOKEN, options);
-  bot.setWebHook(`${url}/bot${TOKEN}`);
+  bot = new TelegramBot(process.env.TOKEN, options);
+  bot.setWebHook(`${url}/bot${process.env.TOKEN}`);
 } else {
-  bot = new TelegramBot(TOKEN, { polling: true });
+  bot = new TelegramBot(process.env.TOKEN, { polling: true });
 }
 
 //connect to DB
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 mongoose.connection
   .once('open', () => {
     console.log('connection has been made');
