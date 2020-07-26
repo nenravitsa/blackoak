@@ -24,10 +24,10 @@ mongoose.Promise = global.Promise;
 
 const options = {
   webHook: {
-    port: 9229,
+    port: process.env.PORT || 9229,
   },
 };
-console.log(process.env);
+
 let bot;
 //bot initialization
 if (process.env.NODE_ENV === 'production') {
